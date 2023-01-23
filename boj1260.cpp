@@ -21,9 +21,7 @@ void dfs(int n, int m, int v, int edge[][1001], int visit[]) {
                 open.push(i);
             }
         }
-
     }
-
 }
 
 void bfs(int n, int m, int v, int edge[][1001], int visit[]) {
