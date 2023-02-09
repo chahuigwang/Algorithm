@@ -27,7 +27,7 @@ void dijkstra(){
 
             if(next_dist < dist[next]){
                 dist[next] = next_dist;
-                pq.push(make_pair(next_dist, next));
+                pq.push({next_dist, next});
             }
         }
     }
@@ -46,7 +46,7 @@ int main(){
     int u, v, w;
     for(int i = 0; i < E; i++){
         cin >> u >> v >> w;
-        edge[u].push_back(make_pair(v, w));
+        edge[u].push_back({v, w});
     }
 
     dijkstra();
