@@ -4,7 +4,11 @@
 
 using namespace std;
 
-void dfs(int n, int m, int v, int edge[][1001], int visit[]) {
+int n, m, v; // N : 정점의 개수, M : 간선의 개수, V : 탐색 시작 정점 번호
+int edge[1001][1001] = {0, };
+int visited[1001] = {0, };
+
+void dfs() {
     stack<int> open;
     int closed;
     open.push(v);
@@ -13,18 +17,18 @@ void dfs(int n, int m, int v, int edge[][1001], int visit[]) {
         closed = open.top();
         open.pop();
         
-        if(!visit[closed])
+        if(!visited[closed])
             cout << closed << ' ';
-        visit[closed] = 1;
+        visited[closed] = 1;
         for (int i = n; i >= 1; i--) {
-            if (edge[closed][i] && !visit[i]) {
+            if (edge[closed][i] && !visited[i]) {
                 open.push(i);
             }
         }
     }
 }
 
-void bfs(int n, int m, int v, int edge[][1001], int visit[]) {
+void bfs() {
     queue<int> open;
     int closed;
     open.push(v);
@@ -33,11 +37,11 @@ void bfs(int n, int m, int v, int edge[][1001], int visit[]) {
         closed = open.front();
         open.pop();
 
-        if(!visit[closed])
+        if(!visited[closed])
             cout << closed << ' ';
-        visit[closed] = 1;
+        visited[closed] = 1;
         for (int i = 1; i <= n; i++) {
-            if (edge[closed][i] && !visit[i]) {
+            if (edge[closed][i] && !visited[i]) {
                 open.push(i);
             }
         }
@@ -49,11 +53,7 @@ int main() {
     cin.tie(NULL);
     cout.tie(NULL);
 
-    int n, m, v;
     cin >> n >> m >> v;
-
-    int edge[1001][1001] = {0, };
-    int visit[1001] = {0, };
     
     for (int i = 0; i < m; i++) {
         int a, b;
@@ -61,10 +61,10 @@ int main() {
         edge[a][b] = 1;
         edge[b][a] = 1;
     }
-    dfs(n, m, v, edge, visit);
-    fill_n(visit, 1001, 0);
+    dfs();
+    fill_n(visited, 1001, 0); // visited 0으로 초기화
     cout << endl;
-    bfs(n, m, v, edge, visit);
+    bfs();
 
     return 0;
 }
