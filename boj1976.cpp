@@ -2,6 +2,7 @@
 
 using namespace std;
 
+int n, m; // n : 도시의 수, m : 여행 계획에 속한 도시의 수
 int parent[201];
 
 int find(int x){
@@ -23,14 +24,13 @@ void merge(int x, int y){
 }
 
 int main(){
-    int n, m;
     cin >> n;
     cin >> m;
 
     for(int i = 0; i <= 200; i++)
         parent[i] = i;
 
-    int conn;
+    int conn; // 1이면 연결, 0이면 연결 x
     for(int i = 1; i <= n; i++){
         for(int j = 1; j <= n; j++){
             cin >> conn;
@@ -43,15 +43,16 @@ int main(){
     cin >> first;
     int firstParent = find(first);
     int nextParent;
-    int cnt = 0;
+    bool isUnion = true;
     for(int i = 0; i < m-1; i++){
         cin >> next;
         nextParent = find(next);
-        if(nextParent != firstParent)
+        if(nextParent != firstParent){
+            isUnion = false;
             break;
-        cnt++;
+        }
     }
-    if(cnt == m-1)
+    if(isUnion)
         cout << "YES";
     else
         cout << "NO";
