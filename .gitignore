@@ -1,4 +1,7 @@
 # PyCham
+.idea
+*.iml
+*.xml
 .idea/*.iml
 .idea/*.xml
 
