@@ -12,10 +12,7 @@ for i in range(t):
         nx = x + dx[move]
         ny = y + dy[move]
         if nx < 0 or nx >= n or ny < 0 or ny >= n or matrix[nx][ny] != 0:
-            if move == 3:
-                move = 0
-            else:
-                move += 1
+            move = (move+1) % 4
             nx = x + dx[move]
             ny = y + dy[move]
         x = nx
