@@ -20,4 +20,3 @@ for test_case in range(1, T + 1):
                 max_dead = dead_num
 
     print(f'#{test_case} {max_dead}')
-    max_dead = 0
