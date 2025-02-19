@@ -1,14 +1,14 @@
 n = int(input())
-data = list(map(int, input().split()))
-data.sort()
+fear = list(map(int, input().split()))
+fear.sort()
 
 group = 0
-count = 0
+member = 0
 
-for i in data:
-    count += 1
-    if count >= i:
+for i in fear:
+    member += 1
+    if member >= i:
         group += 1
-        count = 0
+        member = 0
 
 print(group)
