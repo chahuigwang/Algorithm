@@ -4,22 +4,23 @@ def dfs_stack(graph, start):
     visited[start] = True
     print(start, end=' ')
 
+    # 2, 3번 과정
     while stack:
-        node = stack[-1]  # 최상단 노드를 확인 (pop하지 않음)
+        node = stack[-1]  # 최상단 노드 확인
         found = False  # 방문하지 않은 인접 노드가 있는지 체크
 
         for neighbor in graph[node]:  # 작은 번호부터 탐색
-            if not visited[neighbor]:
-                stack.append(neighbor)  # **하나만 추가**
+            if not visited[neighbor]:  # 인접 노드를 방문하지 않았다면
+                stack.append(neighbor)
                 visited[neighbor] = True  # 방문 처리
                 print(neighbor, end=' ')
                 found = True
-                break  # **하나 추가 후 즉시 종료**
-
-        if not found:  # 방문할 노드가 없으면 pop
+                break
+            
+        if not found:  # 방문하지 않은 인접 노드가 없으면 pop
             stack.pop()
 
-# 그래프 정의 (인접 리스트)
+# 그래프 정의 (2차원 리스트)
 graph = [
     [],
     [2, 3, 8],
@@ -32,5 +33,4 @@ graph = [
     [1, 7]
 ]
 
-# DFS 실행 (스택 방식)
 dfs_stack(graph, 1)
