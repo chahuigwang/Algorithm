@@ -5,8 +5,9 @@ def bfs(graph, start, visited):
     queue = deque([start])
     visited[start] = True
 
-    # 2, 3번 과정
+    # 3. 더 이상 2번의 과정을 수행할 수 없을 때까지 반복
     while queue:
+        # 2번 과정
         # 큐에서 노드를 꺼냄
         v = queue.popleft()
         print(v, end=' ')
