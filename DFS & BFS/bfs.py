@@ -8,8 +8,7 @@ def bfs(graph, start, visited):
     # 3. 더 이상 2번의 과정을 수행할 수 없을 때까지 반복
     while queue:
         # 2번 과정
-        # 큐에서 노드를 꺼냄
-        v = queue.popleft()
+        v = queue.popleft() # 큐에서 노드를 꺼냄
         print(v, end=' ')
         # 해당 노드의 인접 노드 중에서 방문하지 않은 노드를 모두 큐에 삽입하고 방문 처리
         for neighbor in graph[v]:
