@@ -4,8 +4,9 @@ def dfs_stack(graph, start):
     visited[start] = True
     print(start, end=' ')
 
-    # 2, 3번 과정
+    # 3. 더 이상 2번의 과정을 수행할 수 없을 때까지 반복
     while stack:
+        # 2번 과정
         node = stack[-1]  # 최상단 노드 확인
         found = False  # 방문하지 않은 인접 노드가 있는지 체크
 
