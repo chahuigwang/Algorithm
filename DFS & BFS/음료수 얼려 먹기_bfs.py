@@ -1,5 +1,8 @@
 from collections import deque
 
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
 def bfs(x, y):
     if graph[x][y] == 0:
         queue = deque([(x, y)])
@@ -7,9 +10,6 @@ def bfs(x, y):
         
         while queue:
             x, y = queue.popleft()
-            
-            dx = [-1, 1, 0, 0]
-            dy = [0, 0, -1, 1]
             
             for i in range(4):
                 nx = x + dx[i]
