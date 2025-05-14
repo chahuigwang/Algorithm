@@ -13,6 +13,7 @@ def dfs(graph, v, visited):
     return True
 
 input = sys.stdin.readline
+
 n, m = map(int, input().split())
 
 graph = [[] for _ in range(n+1)]
