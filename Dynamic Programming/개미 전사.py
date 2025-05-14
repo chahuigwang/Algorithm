@@ -1,7 +1,7 @@
 n = int(input())
 food = list(map(int, input().split()))
 
-d = [0]*100
+d = [0]*n
 d[0] = food[0]
 d[1] = max(food[0], food[1])
 
