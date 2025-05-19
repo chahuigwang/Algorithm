@@ -3,7 +3,7 @@ n = int(input())
 MOD = 1_000_000
 PISANO = 1_500_000
 
-n = n % PISANO  # 주기만큼 줄이기
+n = n % PISANO
 
 d = [0]*(n+1)
 d[1] = 1
