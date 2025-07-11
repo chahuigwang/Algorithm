@@ -1,4 +1,4 @@
-# PyCham
+# IDE
 .idea
 *.iml
 *.xml
@@ -10,3 +10,5 @@
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
+
+out/
