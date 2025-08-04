@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Boj1260 {
+public class BOJ1260 {
     public static boolean[] visited = new boolean[1001];
     public static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 

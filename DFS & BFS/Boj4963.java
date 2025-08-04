@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Boj4963 {
+public class BOJ4963 {
     public static int w, h;
     public static int[][] map;
 

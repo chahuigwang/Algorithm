@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-public class Boj7569 {
+public class BOJ7569 {
     public static int[][][] boxes;
 
     public static int[] dx = {-1, 1, 0, 0, 0, 0};

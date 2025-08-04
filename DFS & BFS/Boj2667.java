@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class Boj2667 {
+public class BOJ2667 {
     public static int[][] map;
     public static ArrayList<Integer> countList = new ArrayList<>();
     public static int n;

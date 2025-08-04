@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Boj2606 {
+public class BOJ2606 {
     public static ArrayList<ArrayList<Integer>> network = new ArrayList<>();
     public static boolean[] visited;
 

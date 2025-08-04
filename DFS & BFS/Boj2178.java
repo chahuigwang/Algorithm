@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-public class Boj2178 {
+public class BOJ2178 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String[] input = sc.nextLine().split(" ");

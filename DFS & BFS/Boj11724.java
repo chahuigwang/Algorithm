@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Boj11724 {
+public class BOJ11724 {
     public static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
     public static boolean[] visited;
 

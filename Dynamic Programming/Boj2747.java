@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Boj2747 {
+public class BOJ2747 {
 
     public static long[] d;
 
