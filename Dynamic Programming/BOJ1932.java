@@ -5,27 +5,22 @@ public class BOJ1932 {
         Scanner sc = new Scanner(System.in);
 
         int n = sc.nextInt();
-        int[][] tringle = new int[n][n];
-        int[][] dp = new int[n][n];
+        int[][] triangle = new int[n][n];
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < i+1; j++) {
-                tringle[i][j] = sc.nextInt();
-                dp[i][j] = tringle[i][j];
+                triangle[i][j] = sc.nextInt();
             }
         }
 
         for(int i = 1; i < n; i++) {
             for(int j = 0; j < i+1; j++) {
-                int leftUp;
-                if(j-1 >= 0) leftUp = dp[i-1][j-1];
-                else leftUp = 0;
+                int leftUp = (j - 1) >= 0 ? triangle[i-1][j-1] : 0;
+                int up = (j < i) ? triangle[i - 1][j] : 0;
 
-                int up = dp[i-1][j];
-
-                dp[i][j] = Math.max(leftUp, up) + tringle[i][j];
+                triangle[i][j] = Math.max(leftUp, up) + triangle[i][j];
             }
         }
-        int[] bottom = dp[n-1];
+        int[] bottom = triangle[n-1];
         int max = 0;
         for(int b : bottom) {
             max = Math.max(max, b);
