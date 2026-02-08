@@ -1,4 +1,4 @@
-package SWEA.swea5215;
+package SWEA.swea5215_2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
