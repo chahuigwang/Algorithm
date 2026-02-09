@@ -37,9 +37,9 @@ class Solution {
         int numTestCase = Integer.parseInt(br.readLine().trim());
 
         for(int testCaseNo = 1; testCaseNo <= numTestCase; testCaseNo++) {
+            maxTotalScore = 0;
             inputTestCase();
 
-            maxTotalScore = 0;
             for(int selectCount = 0; selectCount <= numIngredients; selectCount++) { // 0개부터 numIngredients개까지 선택
                 selectIngredients(selectCount);
             }
