@@ -27,17 +27,22 @@ public class NextPermutation {
         swap(i - 1, j);
 
         // 4. i부터 끝까지 오름차순 정렬
-        int k = N - 1;
-        while(i < k) {
-            swap(i++, k--);
-        }
+        reverse(i, N - 1);
 
         return true;
     }
 
+    // idx1번째 값과 idx2번째 값 교환
     static void swap(int idx1, int idx2) {
         int temp = elementList[idx1];
         elementList[idx1] = elementList[idx2];
         elementList[idx2] = temp;
+    }
+
+    // start부터 end까지의 값을 뒤집는다.
+    static void reverse(int start, int end) {
+        while(start < end) {
+            swap(start++, end--);
+        }
     }
 }
