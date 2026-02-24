@@ -22,7 +22,7 @@ public class Main {
         Arrays.sort(sequence);
 
         st = new StringTokenizer(br.readLine().trim());
-        int x = Integer.parseInt(st.nextToken());
+        int target = Integer.parseInt(st.nextToken());
 
         int start = 0;
         int end = n-1;
@@ -31,11 +31,11 @@ public class Main {
 
         while(start < end) {
             sum = sequence[start] + sequence[end];
-            if(sum == x) {
+            if(sum == target) {
                 count++;
                 start++;
                 end--;
-            } else if (sum < x) {
+            } else if (sum < target) {
                 start++;
             } else {
                 end--;
