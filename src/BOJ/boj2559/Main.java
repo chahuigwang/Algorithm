@@ -7,30 +7,48 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+    static BufferedReader br;
+    static StringTokenizer st;
+
+    static int[] temperatures;
+    static int dayCount;
+    static int windowSize;
+
+    static int maxSum;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine().trim());
-
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
-        int[] degreeArr = new int[n];
-
-        st = new StringTokenizer(br.readLine().trim());
-        for(int i = 0; i < n; i++) {
-            degreeArr[i] = Integer.parseInt(st.nextToken());
-        }
-
-        int sum = 0;
-        int maxSum = Integer.MIN_VALUE;
-        for(int i = 0; i < n; i++) {
-            sum += degreeArr[i];
-
-            if(i >= k-1) {
-                maxSum = Math.max(maxSum, sum);
-                sum -= degreeArr[i - (k-1)];
-            }
-        }
-
+        init();
+        slidingWindow();
         System.out.println(maxSum);
+    }
+
+    static void init() throws IOException {
+        br = new BufferedReader(new InputStreamReader(System.in));
+        st = new StringTokenizer(br.readLine().trim());
+
+        dayCount = Integer.parseInt(st.nextToken());
+        windowSize = Integer.parseInt(st.nextToken());
+
+        temperatures = new int[dayCount];
+        st = new StringTokenizer(br.readLine().trim());
+        for(int dayIdx = 0; dayIdx < dayCount; dayIdx++) {
+            temperatures[dayIdx] = Integer.parseInt(st.nextToken());
+        }
+
+        maxSum = 0;
+    }
+
+    static void slidingWindow() {
+        int windowSum = 0;
+        for(int dayIdx = 0; dayIdx < windowSize; dayIdx++) {
+            windowSum += temperatures[dayIdx];
+        }
+
+        maxSum = windowSum;
+        for(int dayIdx = windowSize; dayIdx < dayCount; dayIdx++) {
+            windowSum += temperatures[dayIdx];
+            windowSum -= temperatures[dayIdx - windowSize];
+            maxSum = Math.max(maxSum, windowSum);
+        }
     }
 }
