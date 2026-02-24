@@ -12,27 +12,27 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine().trim());
 
         int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        int[] a = new int[n];
+        int target = Integer.parseInt(st.nextToken());
+        int[] sequence = new int[n];
 
         st = new StringTokenizer(br.readLine().trim());
         for(int i = 0; i < n; i++) {
-            a[i] = Integer.parseInt(st.nextToken());
+            sequence[i] = Integer.parseInt(st.nextToken());
         }
 
-        int start = 0;
-        int end = 0;
-        int sum = 0;
+        int start = 0; // inclusive
+        int end = 0; // exclusive
+        int sum = 0; // start ~ end-1 까지의 합
         int count = 0;
 
         while(true) {
-            if(sum >= m) {
-                if(sum == m) count++;
-                sum -= a[start++];
-            } else if (end == n) {
+            if(sum >= target) {
+                if(sum == target) count++;
+                sum -= sequence[start++]; // start를 오른쪽으로 한칸 이동
+            } else if (end == n) { // sum < target 이므로 end를 오른쪽으로 한칸 이동해야 하지만, end가 이미 오른쪽 끝인 경우
                 break;
             } else {
-                sum += a[end++];
+                sum += sequence[end++]; // end를 오른쪽으로 한칸 이동
             }
         }
 
