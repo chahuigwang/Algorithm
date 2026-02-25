@@ -27,9 +27,12 @@ import java.util.StringTokenizer;
  *      2-5-4. 구간합을 windowSums에 저장한다.
  *
  *  @see #getMaxProfit()
- *  2-6. 0 ~ (windowSums.length - adDays - 1) 중에서 첫번째 광고 시작일을 선택한다.
- *  2-7. (첫번째 광고 시작일 + adDays) ~ (windowSums.length - 1) 중에서 두번째 광고 시작일을 선택한다.
- *  2-8. 선택한 두개 구간 수익의 합과 maxProfit 중에 더 큰 값을 maxProfit에 저장한다.
+ *  2-6. 현재 일자까지의 가장 큰 수익을 저장할 배열 bestLeft를 생성하고 초기화한다. (bestLeft[i] : 0 ~ i일 중에서 최대 수익)
+ *  2-7. adDays ~ (windowSums.length - 1) 중에서 두번째 광고 시작일을 선택한다.
+ *  2-8. 첫번째 최대 광고 수익은 bestLeft[두번째 광고 시작일 - adDays]가 된다.
+ *  2-9. (첫번째 광고 수익 + 두번째 광고 수익)과 현재까지의 최대 수익을 비교하여 더 큰 값을 maxProfit에 저장한다.
+ *
+ *  2-10. 테스트 케이스 번호와 함께 maxProfit을 출력한다.
  */
 
 class Solution {
@@ -98,15 +101,22 @@ class Solution {
     }
 
     static void getMaxProfit() {
+        // 2-6. 현재 일자까지의 가장 큰 수익을 저장할 배열 bestLeft를 생성하고 초기화한다. (bestLeft[i] : 0 ~ i일 중에서 최대 수익)
+        int[] bestLeft = new int[windowSums.length];
+        bestLeft[0] = windowSums[0];
+        for(int dayIdx = 1; dayIdx < windowSums.length; dayIdx++) {
+            bestLeft[dayIdx] = Math.max(bestLeft[dayIdx - 1], windowSums[dayIdx]);
+        }
+
+        int firstBest;
         int totalProfit;
-        // 2-6. 0 ~ (windowSums.length - adDays - 1) 중에서 첫번째 광고 시작일을 선택한다.
-        for (int firstStartDay = 0; firstStartDay < windowSums.length - adDays; firstStartDay++) {
-            // 2-7. (첫번째 광고 시작일 + adDays) ~ (windowSums.length - 1) 중에서 두번째 광고 시작일을 선택한다.
-            for (int secondStartDay = firstStartDay + adDays; secondStartDay < windowSums.length; secondStartDay++) {
-                // 2-8. 선택한 두개 구간 수익의 합과 maxProfit 중에 더 큰 값을 maxProfit에 저장한다.
-                totalProfit = windowSums[firstStartDay] + windowSums[secondStartDay];
-                maxProfit = Math.max(maxProfit, totalProfit);
-            }
+        // 2-7. adDays ~ (windowSums.length - 1) 중에서 두번째 광고 시작일을 선택한다.
+        for(int secondStartDay = adDays; secondStartDay < windowSums.length; secondStartDay++) {
+            // 2-8. 첫번째 최대 광고 수익은 bestLeft[두번째 광고 시작일 - adDays]가 된다.
+            firstBest = bestLeft[secondStartDay - adDays];
+
+            totalProfit = firstBest + windowSums[secondStartDay];
+            maxProfit = Math.max(maxProfit, totalProfit);
         }
     }
 }
