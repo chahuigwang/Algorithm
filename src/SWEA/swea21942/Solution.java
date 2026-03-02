@@ -61,6 +61,7 @@ class Solution {
         int testCaseCount = Integer.parseInt(br.readLine().trim());
         for(int testCaseNo = 1; testCaseNo <= testCaseCount; testCaseNo++) {
             initTestCase();
+            // 2-7. 테스트 케이스 번호와 함께 정답을 출력한다.
             sb.append("#").append(testCaseNo).append(" ").append(countBottomMagnetsAfterMove(magentBoard)).append(" ").append(countBottomMagnetsAfterMove(rotateRight())).append("\n");
         }
         System.out.println(sb);
