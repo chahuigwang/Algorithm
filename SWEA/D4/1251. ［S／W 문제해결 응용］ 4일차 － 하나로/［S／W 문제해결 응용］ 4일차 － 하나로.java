@@ -14,41 +14,26 @@ import java.util.StringTokenizer;
  *
  *		@see #initTestCase()
  *		2-1. 섬의 개수를 입력받는다.
- *		2-2. x좌표들을 저장할 배열을 생성하고, x좌표들을 입력받아 배열에 저장한다.
- *		2-3. y좌표들을 저장할 배열을 생성하고, y좌표들을 입력받아 배열에 저장한다.
- *		2-4. 환경 부담 세율을 입력받는다.
+ *		2-2. 섬들의 x좌표와 y좌표를 저장할 배열을 생성하고, 정보를 입력받아 저장한다.
+ *		2-3. 환경 부담 세율 실수를 입력받는다.
+ *		2-4. MST 포함 여부를 저장할 배열을 생성한다.
+ *		2-5. MST에서 정점으로 가는 최소 가중치를 저장할 배열을 생성하고 INF로 초기화한다.
  *
- *		@see #makeEdges()
- *		2-5. 두 섬 사이의 모든 간선을 만들고 배열에 저장한다.
- *		2-6. 간선들을 가중치 기준 오름차순으로 정렬한다.
- *		
- *		@see #makeSets()
- *		2-7. 모든 섬들을 단위 서로소 집합으로 만든다.
+ *		@see #prim()
+ *		2-6. 0번 섬을 시작점으로 선택하고, minEdge를 0으로 설정한다.
+ *		2-7. 모든 정점이 MST에 포함될 때까지,
+ *			2-7-1. 아직 MST에 포함되지 않은 섬 중 MST에 들어오는 비용이 가장 작은 섬을 선택한다.
+ *			2-7-2. 선택한 섬을 MST에 포함한다.
+ *			2-7-3. 새로 포함한 섬을 기준으로 아직 방문하지 않은 다른 섬들의 최소 연결 거리를 갱신한다.
+ *		2-8. MST의 전체 거리의 제곱의 합을 반환한다.
  *
- *		@see #kruskal()
- *		2-8. 크루스칼 알고리즘을 통해 최소 환경 부담금을 구한다.
+ *		@see #calcMstCost()
+ *		2-9. 환경 부담 세율과 MST의 전체 거리의 제곱의 합을 곱한 값을 계산한다.
  *
- *		2-9. 테스트 케이스 번호와 함께 최소 환경 부담금을 소수 첫째 자리에서 반올림한 정수를 출력한다.
+ *		2-10. 테스트 케이스 번호와 함께 정답을 출력한다.
  */
 
 class Solution {
-
-	static class Edge implements Comparable<Edge> {
-		int start;
-		int end;
-		double weight;
-		
-		Edge(int start, int end, double weight) {
-			this.start = start;
-			this.end = end;
-			this.weight = weight;
-		}
-
-		@Override
-		public int compareTo(Edge o) {
-			return Double.compare(this.weight, o.weight);
-		}
-	}
 	
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringBuilder sb = new StringBuilder();
@@ -59,8 +44,9 @@ class Solution {
 	static int[] yList;
 	static double taxRate;
 	
-	static Edge[] edges;
-	static int[] parents;
+	static boolean[] visited;
+	static long[] minEdge; 
+	static final long INF = Long.MAX_VALUE;
 	
 	public static void main(String[] args) throws IOException {
 		// 1. 테스트 케이스 개수를 입력받는다.
@@ -68,8 +54,7 @@ class Solution {
 		// 2. 각 테스트 케이스마다,
 		for(int testCaseNo = 1; testCaseNo <= testCaseCount; testCaseNo++) {
 			initTestCase();
-			// 2-9. 테스트 케이스 번호와 함께 최소 환경 부담금을 소수 첫째 자리에서 반올림한 정수를 출력한다.
-			sb.append("#").append(testCaseNo).append(" ").append(Math.round(kruskal())).append("\n");
+			sb.append("#").append(testCaseNo).append(" ").append(calcMstCost()).append("\n");
 		}
 		System.out.println(sb);
 	}
@@ -77,80 +62,71 @@ class Solution {
 	static void initTestCase() throws IOException {
 		// 2-1. 섬의 개수를 입력받는다.
 		islandCount = Integer.parseInt(br.readLine().trim());
-		
-		// 2-2. x좌표들을 저장할 배열을 생성하고, x좌표들을 입력받아 배열에 저장한다.
+		// 2-2. 섬들의 x좌표와 y좌표를 저장할 배열을 생성하고, 정보를 입력받아 저장한다.
 		xList = new int[islandCount];
+		yList = new int[islandCount];
+		
 		st = new StringTokenizer(br.readLine().trim());
 		for(int islandIdx = 0; islandIdx < islandCount; islandIdx++) {
 			xList[islandIdx] = Integer.parseInt(st.nextToken());
 		}
-		
-		// 2-3. y좌표들을 저장할 배열을 생성하고, y좌표들을 입력받아 배열에 저장한다.
-		yList = new int[islandCount];
 		st = new StringTokenizer(br.readLine().trim());
 		for(int islandIdx = 0; islandIdx < islandCount; islandIdx++) {
 			yList[islandIdx] = Integer.parseInt(st.nextToken());
 		}
-		
-		// 2-4. 환경 부담 세율을 입력받는다.
+		// 2-3. 환경 부담 세율 실수를 입력받는다.
 		taxRate = Double.parseDouble(br.readLine().trim());
+		// 2-4. MST 포함 여부를 저장할 배열을 생성한다.
+		visited = new boolean[islandCount];
+		// 2-5. MST에서 정점으로 가는 최소 가중치를 저장할 배열을 생성하고 INF로 초기화한다.
+		minEdge = new long[islandCount];
+		Arrays.fill(minEdge, INF);
+	}
+	
+	static long prim() {
+		// 2-6. 0번 섬을 시작점으로 선택하고, minEdge를 0으로 설정한다.
+		minEdge[0] = 0;
+		long totalDistanceSqured = 0;
 		
-		makeEdges();
-		makeSets();
-	}
-	
-	static void makeEdges() {
-		// 2-5. 두 섬 사이의 모든 간선을 만들고 배열에 저장한다.
-		edges = new Edge[islandCount * (islandCount - 1) / 2];
-		long dx;
-		long dy;
-		double weight;
-		int idx = 0;
-		for(int start = 0; start < islandCount; start++) {
-		    for(int end = start + 1; end < islandCount; end++) {
-		        dx = xList[start] - xList[end];
-		        dy = yList[start] - yList[end];
-		        weight = taxRate * (dx * dx + dy * dy);
-		        edges[idx++] = new Edge(start, end, weight);
-		    }
-		}
-		
-		// 2-6. 간선들을 가중치 기준 오름차순으로 정렬한다.
-		Arrays.sort(edges);
-	}
-	
-	static void makeSets() {
-		// 2-7. 모든 섬들을 단위 서로소 집합으로 만든다.
-		parents = new int[islandCount];
-		for(int islandIdx = 0; islandIdx < islandCount; islandIdx++) {
-			parents[islandIdx] = islandIdx;
-		}
-	}
-	
-	static int findSet(int v) {
-		if(v == parents[v]) return v;
-		return parents[v] = findSet(parents[v]);
-	}
-	
-	static boolean union(int v1, int v2) {
-		int root1 = findSet(v1);
-		int root2 = findSet(v2);
-		
-		if(root1 == root2) return false;
-		
-		parents[root2] = root1;
-		return true;
-	}
-	
-	static double kruskal() {
-		int count = 0;
-		double totalWeight = 0;
-		for(Edge edge : edges) {
-			if(union(edge.start, edge.end)) {
-				totalWeight += edge.weight;
-				if(++count == islandCount - 1) break;
+		// 2-7. 모든 정점이 MST에 포함될 때까지,
+		for(int count = 0; count < islandCount; count++) {
+			// 2-7-1. 아직 MST에 포함되지 않은 섬 중 MST에 들어오는 비용이 가장 작은 섬을 선택한다.
+			long min = Long.MAX_VALUE;
+			int minIslandIdx = -1;
+			
+			for(int islandIdx = 0; islandIdx < islandCount; islandIdx++) {
+				if(!visited[islandIdx] && min > minEdge[islandIdx]) {
+					min = minEdge[islandIdx];
+					minIslandIdx = islandIdx;
+				}
+			}
+			
+			// 2-7-2. 선택한 섬을 MST에 포함한다.
+			visited[minIslandIdx] = true;
+			totalDistanceSqured += min;
+			
+			// 2-7-3. 새로 포함한 섬을 기준으로 아직 방문하지 않은 다른 섬들의 최소 연결 거리를 갱신한다.
+			long distanceSquared;
+			for(int nextIslandIdx = 0; nextIslandIdx < islandCount; nextIslandIdx++) {
+				if(visited[nextIslandIdx]) continue;
+				distanceSquared = calcDistanceSqaured(minIslandIdx, nextIslandIdx);
+				if(distanceSquared < minEdge[nextIslandIdx]) {
+					minEdge[nextIslandIdx] = distanceSquared;
+				}
 			}
 		}
-		return totalWeight;
+		// 2-8. MST의 전체 거리의 제곱의 합을 반환한다.
+		return totalDistanceSqured;
+	}
+	
+	static long calcDistanceSqaured(int islandIdx1, int islandIdx2) {
+		long dx = xList[islandIdx1] - xList[islandIdx2];
+		long dy = yList[islandIdx1] - yList[islandIdx2];
+		
+		return dx*dx + dy*dy;
+	}
+	
+	static long calcMstCost() {
+		return Math.round(prim() * taxRate);
 	}
 }
