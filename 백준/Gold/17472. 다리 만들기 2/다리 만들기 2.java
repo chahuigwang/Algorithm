@@ -226,9 +226,9 @@ public class Main {
 		for(Bridge bridge : bridges) {
 			if(union(bridge.from, bridge.to)) {
 				totalLength += bridge.length;
-				if(++connectCount == islandCount - 1) break;
+				if(++connectCount == islandCount - 1) return totalLength;
 			}
 		}
-		return (connectCount < islandCount - 1) ? -1 : totalLength;
+		return -1;
 	}
 }
