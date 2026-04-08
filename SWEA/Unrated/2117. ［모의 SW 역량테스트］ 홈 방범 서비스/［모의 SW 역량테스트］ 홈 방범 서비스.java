@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * 		@see #initTestCase()
  * 		2-1. 도시의 한 변의 길이, 하나의 집이 지불할 수 있는 비용을 입력받는다.
  * 		2-2. 집의 위치를 저장할 리스트를 초기화하고, 정보를 입력 받아 리스트에 집의 위치 정보를 저장한다.
- * 		2-3. 서비스 가능한 최대 집의 수를 0으로 초기화한다.
+ * 		2-3. 서비스 가능한 최대 집의 수를 1로 초기화한다.
  * 
  * 		@see #calcMaxServiceHouseCount()
  * 		2-4. 서비스 영역의 크기를 2부터 도시의 한 변의 길이 +1 만큼 늘려보며
@@ -82,8 +82,8 @@ class Solution {
 			}
 		}
 		
-		// 2-3. 서비스 가능한 최대 집의 수를 0으로 초기화한다.
-		maxServiceHouseCount = 0;
+		// 2-3. 서비스 가능한 최대 집의 수를 1로 초기화한다.
+		maxServiceHouseCount = 1;
 	}
 	
 	static void calcMaxServiceHouseCount() {
@@ -93,7 +93,7 @@ class Solution {
 		int distance;
 		boolean updated;
 		// 2-4. 서비스 영역의 크기를 2부터 도시의 한 변의 길이 +1 만큼 늘려보며
-		for(int serviceArea = 1; serviceArea <= citySize + 1; serviceArea++) {
+		for(int serviceArea = 2; serviceArea <= citySize + 1; serviceArea++) {
 			cost = serviceArea * serviceArea + (serviceArea - 1) * (serviceArea - 1);
 			updated = false;
 			// 2-5. 도시의 모든 위치에서
