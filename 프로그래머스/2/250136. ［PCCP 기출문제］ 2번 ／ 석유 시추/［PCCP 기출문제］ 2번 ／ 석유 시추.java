@@ -13,7 +13,7 @@ class Solution {
 
     int[][] oilGroupIds;
     int[] oilAmountList;
-    int oilGroupId = 1;
+    int oilGroupId = 0;
 
     public int solution(int[][] land) {
         height = land.length;
@@ -22,7 +22,7 @@ class Solution {
         visited = new boolean[height][width];
 
         oilGroupIds = new int[height][width];
-        oilAmountList = new int[height * width + 1];
+        oilAmountList = new int[height * width];
         
         makeOilGroups(land);
 
