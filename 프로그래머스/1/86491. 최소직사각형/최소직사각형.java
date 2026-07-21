@@ -23,10 +23,6 @@ class Solution {
             sortedSizes[cardIdx][0] = Math.max(length1, length2);
             sortedSizes[cardIdx][1] = Math.min(length1, length2);
         }
-        
-        for(int[] a: sortedSizes) {
-                System.out.println(Arrays.toString(a));
-        }
     }
     
     int calculateMinWalletSize() {
