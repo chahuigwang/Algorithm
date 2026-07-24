@@ -13,13 +13,11 @@ class Solution {
         int score2 = calculateScore(answers, PATTERN2);
         int score3 = calculateScore(answers, PATTERN3);
         
-        findMaxScore(score1, score2, score3);
+        maxScore = Math.max(score1, Math.max(score2, score3));
         
         if(score1 == maxScore) maxScoreList.add(1);
         if(score2 == maxScore) maxScoreList.add(2);
         if(score3 == maxScore) maxScoreList.add(3);
-        
-        Collections.sort(maxScoreList);
         
         int[] answer = maxScoreList.stream()
                                     .mapToInt(Integer::intValue)
@@ -37,11 +35,5 @@ class Solution {
         }
         
         return score;
-    }
-    
-    void findMaxScore(int score1, int score2, int score3) {
-        maxScore = maxScore < score1 ? score1 : maxScore;
-        maxScore = maxScore < score2 ? score2 : maxScore;
-        maxScore = maxScore < score3 ? score3 : maxScore;
     }
 }
