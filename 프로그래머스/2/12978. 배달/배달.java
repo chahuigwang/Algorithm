@@ -24,7 +24,7 @@ class Solution {
     
     public int solution(int N, int[][] road, int K) {
         init(N, road);
-        dijkstra(1, road);
+        dijkstra(1);
         
         int answer = countCanDeliver(K);
         return answer;
@@ -49,7 +49,7 @@ class Solution {
         Arrays.fill(minTimes, INF);
     }
     
-    void dijkstra(int startTownNo, int[][] road) {
+    void dijkstra(int startTownNo) {
         PriorityQueue<Node> pq = new PriorityQueue<>();
         pq.offer(new Node(startTownNo, 0));
         
@@ -80,8 +80,8 @@ class Solution {
     
     int countCanDeliver(int K) {
         int count = 0;
-        for(int minTime : minTimes) {
-            if(minTime <= K) count++;
+        for(int minTimeIdx = 1; minTimeIdx < minTimes.length; minTimeIdx++) {
+            if(minTimes[minTimeIdx] <= K) count++;
         }
         
         return count;
